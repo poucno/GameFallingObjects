@@ -1,0 +1,404 @@
+[gd_scene format=3 uid="uid://game_hud_01"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cat"]
+bg_color = Color(0.18, 0.45, 0.88, 0.85)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.08, 0.11, 0.18, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.65, 0.95, 0.75)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 10
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal"]
+bg_color = Color(0.09, 0.12, 0.18, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.7, 1, 0.6)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 16
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.15, 0.45, 0.85, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.8, 1, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.22, 0.55, 0.98, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6, 0.9, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="HUD" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_hud")
+
+[node name="ScreenFlash" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="TopMargin" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 65.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 24
+
+[node name="TopBar" type="HBoxContainer" parent="TopMargin"]
+layout_mode = 2
+
+[node name="LeftBox" type="HBoxContainer" parent="TopMargin/TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeartsContainer" type="HBoxContainer" parent="TopMargin/TopBar/LeftBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Heart1" type="Label" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "❤️"
+
+[node name="Heart2" type="Label" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "❤️"
+
+[node name="Heart3" type="Label" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "❤️"
+
+[node name="CenterBox" type="HBoxContainer" parent="TopMargin/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="StreakLabel" type="Label" parent="TopMargin/TopBar/CenterBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 22
+text = "🔥 STREAK x2!"
+
+[node name="RightBox" type="VBoxContainer" parent="TopMargin/TopBar"]
+layout_mode = 2
+alignment = 2
+
+[node name="ScoreLabel" type="Label" parent="TopMargin/TopBar/RightBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.92, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 22
+text = "SCORE: 0"
+horizontal_alignment = 2
+
+[node name="HighScoreLabel" type="Label" parent="TopMargin/TopBar/RightBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 0.75)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "BEST: 0"
+horizontal_alignment = 2
+
+[node name="BottomMargin" type="MarginContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -88.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 14
+
+[node name="QuestionCard" type="PanelContainer" parent="BottomMargin"]
+layout_mode = 2
+pivot_offset = Vector2(544, 34)
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="HBox" type="HBoxContainer" parent="BottomMargin/QuestionCard"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="CategoryBadge" type="PanelContainer" parent="BottomMargin/QuestionCard/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_cat")
+
+[node name="CatMargin" type="MarginContainer" parent="BottomMargin/QuestionCard/HBox/CategoryBadge"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="CatLabel" type="Label" parent="BottomMargin/QuestionCard/HBox/CategoryBadge/CatMargin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "SCIENCE"
+horizontal_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="BottomMargin/QuestionCard/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="QuestionTitle" type="Label" parent="BottomMargin/QuestionCard/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 0.8)
+theme_override_font_sizes/font_size = 11
+text = "QUESTION:"
+
+[node name="QuestionLabel" type="Label" parent="BottomMargin/QuestionCard/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.98, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 19
+text = "What planet is known as the 'Red Planet'?"
+autowrap_mode = 2
+
+[node name="CounterLabel" type="Label" parent="BottomMargin/QuestionCard/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.5, 0.75, 1, 0.8)
+theme_override_font_sizes/font_size = 15
+text = "Q #1"
+
+[node name="GameOverOverlay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="GameOverOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.09, 0.82)
+
+[node name="Center" type="CenterContainer" parent="GameOverOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="GameOverOverlay/Center"]
+custom_minimum_size = Vector2(440, 320)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal")
+
+[node name="Margin" type="MarginContainer" parent="GameOverOverlay/Center/Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="GameOverOverlay/Center/Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Title" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 38
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="ScoreHeader" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 0.8)
+theme_override_font_sizes/font_size = 14
+text = "FINAL SCORE"
+horizontal_alignment = 1
+
+[node name="FinalScore" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 46
+text = "0"
+horizontal_alignment = 1
+
+[node name="NewRecordLabel" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 18
+text = "🎉 NEW HIGH SCORE!"
+horizontal_alignment = 1
+
+[node name="StatsLabel" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 0.9)
+theme_override_font_sizes/font_size = 15
+text = "Questions Solved: 0 • High Score: 0"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="GameOverOverlay/Center/Card/Margin/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="BtnBox" type="HBoxContainer" parent="GameOverOverlay/Center/Card/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="RestartBtn" type="Button" parent="GameOverOverlay/Center/Card/Margin/VBox/BtnBox"]
+custom_minimum_size = Vector2(180, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
+text = "PLAY AGAIN (R)"
+
+[node name="PauseOverlay" type="Control" parent="."]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.09, 0.8)
+
+[node name="Center" type="CenterContainer" parent="PauseOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="PanelContainer" parent="PauseOverlay/Center"]
+custom_minimum_size = Vector2(400, 280)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal")
+
+[node name="Margin" type="MarginContainer" parent="PauseOverlay/Center/Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="PauseOverlay/Center/Card/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Title" type="Label" parent="PauseOverlay/Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Help" type="Label" parent="PauseOverlay/Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "• Move: [A] / [D] or [Left] / [Right]
+• Speed Boost: [Shift] or [Space]
+• Mouse: Move cursor left/right
+• Catch the word answering the question!
+• Avoid incorrect answers!"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="PauseOverlay/Center/Card/Margin/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="BtnBox" type="HBoxContainer" parent="PauseOverlay/Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="ResumeBtn" type="Button" parent="PauseOverlay/Center/Card/Margin/VBox/BtnBox"]
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
+text = "RESUME"
+
+[node name="PauseRestartBtn" type="Button" parent="PauseOverlay/Center/Card/Margin/VBox/BtnBox"]
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
+text = "RESTART"
+
