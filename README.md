@@ -73,10 +73,5 @@ No external `.wav` or `.mp3` files are required!
 
 ### From Godot Editor:
 1. Open Godot Engine.
-2. Import / open `d:\magisterij_1_letnik\skupinsko\GameFallingObjects`.
+2. Import the project
 3. Press **F5** (or click the **Play** button in the top-right corner).
-
-### From Command Line:
-```powershell
-& "C:\Users\bumba\Desktop\Godot_v4.7.2-stable_win64.exe" --path .
-```
