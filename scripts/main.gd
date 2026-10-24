@@ -1,15 +1,18 @@
 class_name MainGame
 extends Node2D
 
-const QuestionDatabaseScript = preload("res://scripts/question_database.gd")
 const FallingWordScript = preload("res://scripts/falling_word.gd")
 
 @export var falling_word_scene: PackedScene = preload("res://scenes/falling_word.tscn")
 
-var database: RefCounted
+var questions: Array = []
+var deck: Array = []
 var current_question: Dictionary = {}
 var question_index: int = 0
 var questions_solved: int = 0
+var wrong_count: int = 0
+var missed_count: int = 0
+var _start_time_msec: int = 0
 
 var score: int = 0
 var high_score: int = 0
@@ -34,7 +37,6 @@ const SAVE_PATH: String = "user://word_catcher_save.cfg"
 
 func _ready() -> void:
 	randomize()
-	database = QuestionDatabaseScript.new()
 	_load_high_score()
 
 	if hud:
@@ -43,6 +45,12 @@ func _ready() -> void:
 	if player:
 		player.word_caught.connect(_on_player_word_caught)
 
+	var bridge := get_node_or_null("GameBridge")
+	if bridge and bridge.has_signal("questions_received"):
+		bridge.questions_received.connect(start_with_questions)
+
+func start_with_questions(p_questions: Array) -> void:
+	questions = p_questions
 	start_new_game()
 
 func _load_high_score() -> void:
@@ -67,6 +75,9 @@ func _play_sound(method_name: String) -> void:
 			sm.call(method_name)
 
 func start_new_game() -> void:
+	if questions.is_empty():
+		return
+
 	is_game_over = false
 	if get_tree():
 		get_tree().paused = false
@@ -75,6 +86,9 @@ func start_new_game() -> void:
 	streak = 0
 	question_index = 0
 	questions_solved = 0
+	wrong_count = 0
+	missed_count = 0
+	_start_time_msec = Time.get_ticks_msec()
 
 	if hud:
 		hud.hide_game_over()
@@ -84,8 +98,8 @@ func start_new_game() -> void:
 		hud.update_lives(lives, MAX_LIVES)
 		hud.update_streak(streak)
 
-	if database:
-		database.reset()
+	deck = questions.duplicate(true)
+	deck.shuffle()
 	_clear_all_words()
 	_load_next_question()
 
@@ -107,24 +121,29 @@ func _load_next_question() -> void:
 	active_words.clear()
 	pending_spawns.clear()
 
-	if not database:
+	if deck.is_empty():
+		_trigger_game_over()
 		return
 
-	current_question = database.get_next_question()
+	current_question = deck.pop_front()
 	question_index += 1
 
 	if hud:
 		hud.set_question(
 			current_question.get("question", ""),
-			current_question.get("category", "General"),
+			"",
 			question_index
 		)
 
 	_prepare_question_spawns()
 
 func _prepare_question_spawns() -> void:
-	var answer: String = current_question.get("answer", "")
-	var distractors: Array = current_question.get("distractors", []).duplicate()
+	var answer: String = str(current_question.get("answer", ""))
+	var distractors: Array = []
+	for option in current_question.get("possibleAnswers", []):
+		var text := str(option)
+		if text != answer:
+			distractors.append(text)
 	distractors.shuffle()
 
 	# Select 2 to 3 distractors
@@ -239,6 +258,7 @@ func _on_word_missed_signal(is_correct: bool, _text: String) -> void:
 
 	if is_correct:
 		# Player missed the correct answer!
+		missed_count += 1
 		lives -= 1
 		streak = 0
 		if hud:
@@ -312,6 +332,7 @@ func _handle_correct_catch(pos: Vector2) -> void:
 		_load_next_question()
 
 func _handle_wrong_catch(pos: Vector2) -> void:
+	wrong_count += 1
 	lives -= 1
 	streak = 0
 	if hud:
@@ -337,6 +358,17 @@ func _trigger_game_over() -> void:
 	var is_new_best = score >= high_score and score > 0
 	if hud:
 		hud.show_game_over(score, high_score, questions_solved, is_new_best)
+
+	var bridge := get_node_or_null("GameBridge")
+	if bridge and bridge.has_method("send_result"):
+		bridge.send_result({
+			"score": score,
+			"correct": questions_solved,
+			"wrong": wrong_count,
+			"missed": missed_count,
+			"totalQuestions": questions.size(),
+			"durationMs": Time.get_ticks_msec() - _start_time_msec,
+		})
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and (event.keycode == KEY_ESCAPE or event.keycode == KEY_P)):

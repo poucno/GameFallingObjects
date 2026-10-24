@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://main_game_01"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/game_bridge.gd" id="4_bridge"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/hud.tscn" id="3_hud"]
 
@@ -44,4 +45,7 @@ position = Vector2(576, 324)
 position = Vector2(576, 525)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="GameBridge" type="Node" parent="."]
+script = ExtResource("4_bridge")
 

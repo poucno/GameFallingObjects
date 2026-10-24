@@ -46,6 +46,7 @@ func _ready() -> void:
 
 func set_question(question_text: String, category: String, index: int) -> void:
 	question_label.text = question_text
+	category_badge.visible = not category.strip_edges().is_empty()
 	category_label.text = category.to_upper()
 	question_counter_label.text = "Q #%d" % index
 
