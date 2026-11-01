@@ -1,4 +1,3 @@
-
 FROM barichello/godot-ci:4.7.2 AS builder
 
 WORKDIR /game
