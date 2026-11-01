@@ -2,6 +2,7 @@ extends Node
 
 signal questions_received(questions: Array)
 
+var questions: Array = []
 var _started: bool = false
 var _callback_ref: JavaScriptObject
 
@@ -26,7 +27,8 @@ func _on_message(args: Array) -> void:
 		return
 
 	_started = true
-	questions_received.emit(message.get("questions", []))
+	questions = message.get("questions", [])
+	questions_received.emit(questions)
 
 func send_result(payload: Dictionary) -> void:
 	_post({"type": "result", "payload": payload})
