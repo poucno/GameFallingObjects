@@ -146,8 +146,8 @@ func _prepare_question_spawns() -> void:
 			distractors.append(text)
 	distractors.shuffle()
 
-	# Select 2 to 3 distractors
-	var count = mini(3, distractors.size())
+	# Select up to 4 distractors
+	var count = mini(4, distractors.size())
 	var selected_distractors = distractors.slice(0, count)
 
 	# Prepare list of items to drop
