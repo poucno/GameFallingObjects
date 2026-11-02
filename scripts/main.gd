@@ -131,8 +131,7 @@ func _load_next_question() -> void:
 	if hud:
 		hud.set_question(
 			current_question.get("question", ""),
-			"",
-			question_index
+			""
 		)
 
 	_prepare_question_spawns()

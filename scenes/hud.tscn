@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://game_hud_01"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
+[ext_resource type="Script" path="res://scripts/heart_icon.gd" id="2_heart"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cat"]
 bg_color = Color(0.18, 0.45, 0.88, 0.85)
@@ -11,6 +12,10 @@ corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
 bg_color = Color(0.08, 0.11, 0.18, 0.92)
+content_margin_left = 18
+content_margin_right = 18
+content_margin_top = 10
+content_margin_bottom = 10
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -96,20 +101,20 @@ theme_override_constants/separation = 16
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Heart1" type="Label" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
+[node name="Heart1" type="Control" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
+custom_minimum_size = Vector2(26, 24)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "❤️"
+script = ExtResource("2_heart")
 
-[node name="Heart2" type="Label" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
+[node name="Heart2" type="Control" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
+custom_minimum_size = Vector2(26, 24)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "❤️"
+script = ExtResource("2_heart")
 
-[node name="Heart3" type="Label" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
+[node name="Heart3" type="Control" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
+custom_minimum_size = Vector2(26, 24)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "❤️"
+script = ExtResource("2_heart")
 
 [node name="CenterBox" type="HBoxContainer" parent="TopMargin/TopBar"]
 layout_mode = 2
@@ -206,13 +211,6 @@ theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 19
 text = "What planet is known as the 'Red Planet'?"
 autowrap_mode = 2
-
-[node name="CounterLabel" type="Label" parent="BottomMargin/QuestionCard/HBox"]
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_colors/font_color = Color(0.5, 0.75, 1, 0.8)
-theme_override_font_sizes/font_size = 15
-text = "Q #1"
 
 [node name="GameOverOverlay" type="Control" parent="."]
 layout_mode = 3
