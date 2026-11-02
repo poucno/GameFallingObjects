@@ -8,7 +8,6 @@ signal resume_requested
 @onready var question_label: Label = $BottomMargin/QuestionCard/HBox/VBox/QuestionLabel
 @onready var category_label: Label = $BottomMargin/QuestionCard/HBox/CategoryBadge/CatMargin/CatLabel
 @onready var category_badge: PanelContainer = $BottomMargin/QuestionCard/HBox/CategoryBadge
-@onready var question_counter_label: Label = $BottomMargin/QuestionCard/HBox/CounterLabel
 
 @onready var score_label: Label = $TopMargin/TopBar/RightBox/ScoreLabel
 @onready var highscore_label: Label = $TopMargin/TopBar/RightBox/HighScoreLabel
@@ -30,9 +29,6 @@ var _displayed_score: int = 0
 var _target_score: int = 0
 var _score_tween: Tween
 
-const HEART_FULL: String = "❤️"
-const HEART_EMPTY: String = "🖤"
-
 func _ready() -> void:
 	game_over_panel.visible = false
 	pause_panel.visible = false
@@ -44,11 +40,10 @@ func _ready() -> void:
 	resume_button.pressed.connect(_on_resume_pressed)
 	pause_restart_button.pressed.connect(_on_restart_pressed)
 
-func set_question(question_text: String, category: String, index: int) -> void:
+func set_question(question_text: String, category: String) -> void:
 	question_label.text = question_text
 	category_badge.visible = not category.strip_edges().is_empty()
 	category_label.text = category.to_upper()
-	question_counter_label.text = "Q #%d" % index
 
 	# Distinct color per category
 	var cat_color = _get_category_color(category)
@@ -92,18 +87,17 @@ func update_lives(current_lives: int, max_lives: int = 3) -> void:
 	var children = lives_box.get_children()
 	for i in range(max_lives):
 		if i < children.size():
-			var heart = children[i] as Label
-			if i < current_lives:
-				heart.text = HEART_FULL
-				heart.modulate = Color(1.0, 1.0, 1.0, 1.0)
-			else:
-				if heart.text == HEART_FULL:
-					_pop_heart(heart)
-				heart.text = HEART_EMPTY
-				heart.modulate = Color(0.6, 0.6, 0.6, 0.5)
+			var heart = children[i]
+			if not heart.has_method("set_filled"):
+				continue
+			var is_filled := i < current_lives
+			if heart.filled and not is_filled:
+				_pop_heart(heart)
+			heart.set_filled(is_filled)
 
-func _pop_heart(heart: Label) -> void:
-	var tw = create_tween()
+func _pop_heart(heart: Control) -> void:
+	heart.pivot_offset = heart.size / 2.0
+	var tw := create_tween()
 	tw.tween_property(heart, "scale", Vector2(1.5, 1.5), 0.1)
 	tw.tween_property(heart, "scale", Vector2.ONE, 0.15)
 
