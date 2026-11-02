@@ -264,7 +264,7 @@ func _on_word_missed_signal(is_correct: bool, _text: String) -> void:
 			hud.update_lives(lives, MAX_LIVES)
 			hud.update_streak(streak)
 			hud.flash_screen(Color(1.0, 0.45, 0.1, 0.3), 0.3)
-			hud.show_floating_text("MISSED! -1 ❤️", Vector2(576, 520), Color(1.0, 0.6, 0.2))
+			hud.show_floating_text("MISSED! -1", Vector2(576, 520), Color(1.0, 0.6, 0.2))
 
 		_play_sound("play_miss")
 		_add_camera_shake(7.0)
@@ -338,7 +338,7 @@ func _handle_wrong_catch(pos: Vector2) -> void:
 		hud.update_lives(lives, MAX_LIVES)
 		hud.update_streak(streak)
 		hud.flash_screen(Color(1.0, 0.2, 0.2, 0.35), 0.35)
-		hud.show_floating_text("WRONG! -1 ❤️", pos, Color(1.0, 0.3, 0.3))
+		hud.show_floating_text("WRONG! -1", pos, Color(1.0, 0.3, 0.3))
 
 	_play_sound("play_wrong")
 	_add_camera_shake(12.0)
