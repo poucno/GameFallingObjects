@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://game_hud_01"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_hud"]
-[ext_resource type="Script" path="res://scripts/heart_icon.gd" id="2_heart"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cat"]
 bg_color = Color(0.18, 0.45, 0.88, 0.85)
@@ -97,24 +96,13 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="HeartsContainer" type="HBoxContainer" parent="TopMargin/TopBar/LeftBox"]
+[node name="QuestionsLeftLabel" type="Label" parent="TopMargin/TopBar/LeftBox"]
 layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="Heart1" type="Control" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
-custom_minimum_size = Vector2(26, 24)
-layout_mode = 2
-script = ExtResource("2_heart")
-
-[node name="Heart2" type="Control" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
-custom_minimum_size = Vector2(26, 24)
-layout_mode = 2
-script = ExtResource("2_heart")
-
-[node name="Heart3" type="Control" parent="TopMargin/TopBar/LeftBox/HeartsContainer"]
-custom_minimum_size = Vector2(26, 24)
-layout_mode = 2
-script = ExtResource("2_heart")
+theme_override_colors/font_color = Color(0.4, 0.92, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 20
+text = "QUESTIONS LEFT: 0"
 
 [node name="CenterBox" type="HBoxContainer" parent="TopMargin/TopBar"]
 layout_mode = 2
@@ -260,7 +248,7 @@ theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 38
-text = "GAME OVER"
+text = "SET COMPLETE"
 horizontal_alignment = 1
 
 [node name="ScoreHeader" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]

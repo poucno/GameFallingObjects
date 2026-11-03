@@ -12,7 +12,7 @@ signal resume_requested
 @onready var score_label: Label = $TopMargin/TopBar/RightBox/ScoreLabel
 @onready var highscore_label: Label = $TopMargin/TopBar/RightBox/HighScoreLabel
 @onready var streak_label: Label = $TopMargin/TopBar/CenterBox/StreakLabel
-@onready var lives_box: HBoxContainer = $TopMargin/TopBar/LeftBox/HeartsContainer
+@onready var questions_left_label: Label = $TopMargin/TopBar/LeftBox/QuestionsLeftLabel
 
 @onready var screen_flash: ColorRect = $ScreenFlash
 @onready var game_over_panel: Control = $GameOverOverlay
@@ -83,23 +83,8 @@ func _animate_score_count(val: int) -> void:
 func update_high_score(best: int) -> void:
 	highscore_label.text = "BEST: %d" % best
 
-func update_lives(current_lives: int, max_lives: int = 3) -> void:
-	var children = lives_box.get_children()
-	for i in range(max_lives):
-		if i < children.size():
-			var heart = children[i]
-			if not heart.has_method("set_filled"):
-				continue
-			var is_filled := i < current_lives
-			if heart.filled and not is_filled:
-				_pop_heart(heart)
-			heart.set_filled(is_filled)
-
-func _pop_heart(heart: Control) -> void:
-	heart.pivot_offset = heart.size / 2.0
-	var tw := create_tween()
-	tw.tween_property(heart, "scale", Vector2(1.5, 1.5), 0.1)
-	tw.tween_property(heart, "scale", Vector2.ONE, 0.15)
+func update_questions_left(remaining: int) -> void:
+	questions_left_label.text = "QUESTIONS LEFT: %d" % remaining
 
 func update_streak(streak: int) -> void:
 	if streak >= 2:

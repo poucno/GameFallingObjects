@@ -16,11 +16,10 @@ var _start_time_msec: int = 0
 
 var score: int = 0
 var high_score: int = 0
-var lives: int = 3
-const MAX_LIVES: int = 3
 var streak: int = 0
 
 var is_game_over: bool = false
+var round_resolved: bool = false
 var is_wave_active: bool = false
 var active_words: Array[Area2D] = []
 var pending_spawns: Array[Dictionary] = []
@@ -82,7 +81,6 @@ func start_new_game() -> void:
 	if get_tree():
 		get_tree().paused = false
 	score = 0
-	lives = MAX_LIVES
 	streak = 0
 	question_index = 0
 	questions_solved = 0
@@ -95,7 +93,6 @@ func start_new_game() -> void:
 		hud.set_pause_visible(false)
 		hud.update_score(score)
 		hud.update_high_score(high_score)
-		hud.update_lives(lives, MAX_LIVES)
 		hud.update_streak(streak)
 
 	deck = questions.duplicate(true)
@@ -113,6 +110,8 @@ func _clear_all_words() -> void:
 func _load_next_question() -> void:
 	if is_game_over:
 		return
+
+	round_resolved = false
 
 	# Remove any remaining distractors from last round
 	for word in active_words:
@@ -133,6 +132,7 @@ func _load_next_question() -> void:
 			current_question.get("question", ""),
 			""
 		)
+		hud.update_questions_left(deck.size() + 1)
 
 	_prepare_question_spawns()
 
@@ -232,6 +232,8 @@ func _spawn_word(p_text: String, p_is_correct: bool, p_x: float) -> void:
 
 func _on_player_word_caught(word_area: Area2D) -> void:
 	var word = word_area
+	if is_game_over or round_resolved:
+		return
 	if not word or bool(word.get("is_caught")):
 		return
 
@@ -252,36 +254,35 @@ func _on_word_caught_signal(_is_correct: bool, _text: String, _pos: Vector2) -> 
 	pass
 
 func _on_word_missed_signal(is_correct: bool, _text: String) -> void:
-	if is_game_over:
+	if is_game_over or round_resolved:
 		return
 
 	if is_correct:
-		# Player missed the correct answer!
+		# Player missed the correct answer: no score change, just advance.
+		round_resolved = true
 		missed_count += 1
-		lives -= 1
 		streak = 0
 		if hud:
-			hud.update_lives(lives, MAX_LIVES)
 			hud.update_streak(streak)
 			hud.flash_screen(Color(1.0, 0.45, 0.1, 0.3), 0.3)
-			hud.show_floating_text("MISSED! -1", Vector2(576, 520), Color(1.0, 0.6, 0.2))
+			hud.show_floating_text("MISSED!", Vector2(576, 520), Color(1.0, 0.6, 0.2))
 
 		_play_sound("play_miss")
 		_add_camera_shake(7.0)
 
-		if lives <= 0:
-			_trigger_game_over()
+		# Advance after a short delay
+		if get_tree():
+			get_tree().create_timer(0.6).timeout.connect(_load_next_question)
 		else:
-			# Advance or reload after short delay
-			if get_tree():
-				get_tree().create_timer(0.6).timeout.connect(_load_next_question)
-			else:
-				_load_next_question()
+			_load_next_question()
 	else:
 		# Distractor fell off safely
 		_check_if_wave_exhausted()
 
 func _check_if_wave_exhausted() -> void:
+	if is_game_over or round_resolved:
+		return
+
 	# If no more spawns pending and no correct word remaining active
 	if pending_spawns.is_empty():
 		var has_correct = false
@@ -297,10 +298,11 @@ func _check_if_wave_exhausted() -> void:
 				_load_next_question()
 
 func _handle_correct_catch(pos: Vector2) -> void:
+	if round_resolved:
+		return
+	round_resolved = true
 	questions_solved += 1
-	var multiplier = 1.0 + float(streak) * 0.5
-	var earned = int(100.0 * multiplier)
-	score += earned
+	score += 20
 	streak += 1
 
 	if score > high_score:
@@ -313,10 +315,7 @@ func _handle_correct_catch(pos: Vector2) -> void:
 		hud.update_score(score)
 		hud.update_streak(streak)
 		hud.flash_screen(Color(0.2, 0.9, 0.4, 0.25), 0.2)
-		var bonus_text = "+%d" % earned
-		if streak >= 2:
-			bonus_text = "+%d (x%.1f)" % [earned, multiplier]
-		hud.show_floating_text(bonus_text, pos, Color(0.3, 1.0, 0.5))
+		hud.show_floating_text("+20", pos, Color(0.3, 1.0, 0.5))
 
 	_play_sound("play_correct")
 	if streak >= 3:
@@ -331,20 +330,26 @@ func _handle_correct_catch(pos: Vector2) -> void:
 		_load_next_question()
 
 func _handle_wrong_catch(pos: Vector2) -> void:
+	if round_resolved:
+		return
+	round_resolved = true
 	wrong_count += 1
-	lives -= 1
+	score = maxi(0, score - 10)
 	streak = 0
 	if hud:
-		hud.update_lives(lives, MAX_LIVES)
+		hud.update_score(score)
 		hud.update_streak(streak)
 		hud.flash_screen(Color(1.0, 0.2, 0.2, 0.35), 0.35)
-		hud.show_floating_text("WRONG! -1", pos, Color(1.0, 0.3, 0.3))
+		hud.show_floating_text("-10", pos, Color(1.0, 0.3, 0.3))
 
 	_play_sound("play_wrong")
 	_add_camera_shake(12.0)
 
-	if lives <= 0:
-		_trigger_game_over()
+	# A wrong catch ends the round; there are no lives, only the score drops.
+	if get_tree():
+		get_tree().create_timer(0.5).timeout.connect(_load_next_question)
+	else:
+		_load_next_question()
 
 func _add_camera_shake(amount: float) -> void:
 	shake_intensity = maxf(shake_intensity, amount)
@@ -356,6 +361,7 @@ func _trigger_game_over() -> void:
 
 	var is_new_best = score >= high_score and score > 0
 	if hud:
+		hud.update_questions_left(0)
 		hud.show_game_over(score, high_score, questions_solved, is_new_best)
 
 	var bridge := get_node_or_null("GameBridge")
