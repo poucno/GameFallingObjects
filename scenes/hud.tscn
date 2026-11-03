@@ -67,6 +67,57 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card_light"]
+bg_color = Color(0.98, 0.97, 0.94, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.25, 0.35, 0.18)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 16
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_green"]
+bg_color = Color(0.133, 0.773, 0.369, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.9, 0.5, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_green_hover"]
+bg_color = Color(0.25, 0.85, 0.47, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.95, 0.6, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_green_pressed"]
+bg_color = Color(0.1, 0.65, 0.3, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.9, 0.5, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [node name="HUD" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_hud")
@@ -228,7 +279,7 @@ grow_vertical = 2
 [node name="Card" type="PanelContainer" parent="GameOverOverlay/Center"]
 custom_minimum_size = Vector2(440, 320)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_modal")
+theme_override_styles/panel = SubResource("StyleBoxFlat_card_light")
 
 [node name="Margin" type="MarginContainer" parent="GameOverOverlay/Center/Card"]
 layout_mode = 2
@@ -244,25 +295,21 @@ alignment = 1
 
 [node name="Title" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
-theme_override_constants/shadow_offset_y = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 38
 text = "Konec igre"
 horizontal_alignment = 1
 
 [node name="FinalScore" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
-theme_override_constants/shadow_offset_y = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Točke: 0"
 horizontal_alignment = 1
 
 [node name="StatsLabel" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 0.9)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 15
 text = "Osebni rekord: 0"
 horizontal_alignment = 1
@@ -278,10 +325,13 @@ alignment = 1
 [node name="RestartBtn" type="Button" parent="GameOverOverlay/Center/Card/Margin/VBox/BtnBox"]
 custom_minimum_size = Vector2(180, 44)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 0.85)
 theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_green")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_green_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_green_pressed")
 text = "Igraj znova"
 
 [node name="PauseOverlay" type="Control" parent="."]
