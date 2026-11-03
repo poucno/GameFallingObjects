@@ -102,7 +102,7 @@ theme_override_colors/font_color = Color(0.4, 0.92, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 20
-text = "QUESTIONS LEFT: 0"
+text = "VPRAŠANJA: 0"
 
 [node name="CenterBox" type="HBoxContainer" parent="TopMargin/TopBar"]
 layout_mode = 2
@@ -115,7 +115,7 @@ theme_override_colors/font_color = Color(1, 0.84, 0.2, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 22
-text = "STREAK x2!"
+text = "ZAPOREDJE x2!"
 
 [node name="RightBox" type="VBoxContainer" parent="TopMargin/TopBar"]
 layout_mode = 2
@@ -127,7 +127,7 @@ theme_override_colors/font_color = Color(0.4, 0.92, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 22
-text = "SCORE: 0"
+text = "TOČKE: 0"
 horizontal_alignment = 2
 
 [node name="HighScoreLabel" type="Label" parent="TopMargin/TopBar/RightBox"]
@@ -136,7 +136,7 @@ theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 0.75)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 14
-text = "BEST: 0"
+text = "REKORD: 0"
 horizontal_alignment = 2
 
 [node name="BottomMargin" type="MarginContainer" parent="."]
@@ -176,7 +176,7 @@ theme_override_constants/margin_bottom = 6
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 13
-text = "SCIENCE"
+text = "ZNANOST"
 horizontal_alignment = 1
 
 [node name="VBox" type="VBoxContainer" parent="BottomMargin/QuestionCard/HBox"]
@@ -189,7 +189,7 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.8, 1, 0.8)
 theme_override_font_sizes/font_size = 11
-text = "QUESTION:"
+text = "VPRAŠANJE:"
 
 [node name="QuestionLabel" type="Label" parent="BottomMargin/QuestionCard/HBox/VBox"]
 layout_mode = 2
@@ -197,7 +197,7 @@ theme_override_colors/font_color = Color(0.96, 0.98, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 19
-text = "What planet is known as the 'Red Planet'?"
+text = "Kateri planet je znan kot rdeči planet?"
 autowrap_mode = 2
 
 [node name="GameOverOverlay" type="Control" parent="."]
@@ -248,14 +248,7 @@ theme_override_colors/font_color = Color(1, 0.35, 0.35, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 38
-text = "SET COMPLETE"
-horizontal_alignment = 1
-
-[node name="ScoreHeader" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 0.8)
-theme_override_font_sizes/font_size = 14
-text = "FINAL SCORE"
+text = "Konec igre"
 horizontal_alignment = 1
 
 [node name="FinalScore" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
@@ -263,24 +256,15 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 46
-text = "0"
-horizontal_alignment = 1
-
-[node name="NewRecordLabel" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 18
-text = "NEW HIGH SCORE!"
+theme_override_font_sizes/font_size = 40
+text = "Točke: 0"
 horizontal_alignment = 1
 
 [node name="StatsLabel" type="Label" parent="GameOverOverlay/Center/Card/Margin/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 0.9)
 theme_override_font_sizes/font_size = 15
-text = "Questions Solved: 0 • High Score: 0"
+text = "Osebni rekord: 0"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="GameOverOverlay/Center/Card/Margin/VBox"]
@@ -298,7 +282,7 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
-text = "PLAY AGAIN (R)"
+text = "Igraj znova"
 
 [node name="PauseOverlay" type="Control" parent="."]
 process_mode = 2
@@ -347,18 +331,18 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.35, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 32
-text = "PAUSED"
+text = "PAVZA"
 horizontal_alignment = 1
 
 [node name="Help" type="Label" parent="PauseOverlay/Center/Card/Margin/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.9, 0.95, 0.9)
 theme_override_font_sizes/font_size = 14
-text = "• Move: [A] / [D] or [Left] / [Right]
-• Speed Boost: [Shift] or [Space]
-• Mouse: Move cursor left/right
-• Catch the word answering the question!
-• Avoid incorrect answers!"
+text = "• Premikanje: [A] / [D] ali [levo] / [desno]
+• Pospešek: [Shift] ali [preslednica]
+• Miška: premakni kazalec levo/desno
+• Ujemi besedo, ki odgovarja na vprašanje!
+• Izogibaj se napačnim odgovorom!"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="PauseOverlay/Center/Card/Margin/VBox"]
@@ -377,7 +361,7 @@ theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
-text = "RESUME"
+text = "NADALJUJ"
 
 [node name="PauseRestartBtn" type="Button" parent="PauseOverlay/Center/Card/Margin/VBox/BtnBox"]
 custom_minimum_size = Vector2(130, 40)
@@ -386,5 +370,5 @@ theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
-text = "RESTART"
+text = "ZNOVA"
 
