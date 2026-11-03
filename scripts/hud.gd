@@ -18,7 +18,7 @@ signal resume_requested
 @onready var game_over_panel: Control = $GameOverOverlay
 @onready var final_score_label: Label = $GameOverOverlay/Center/Card/Margin/VBox/FinalScore
 @onready var final_stats_label: Label = $GameOverOverlay/Center/Card/Margin/VBox/StatsLabel
-@onready var new_record_badge: Label = $GameOverOverlay/Center/Card/Margin/VBox/NewRecordLabel
+@onready var title_label: Label = $GameOverOverlay/Center/Card/Margin/VBox/Title
 @onready var restart_button: Button = $GameOverOverlay/Center/Card/Margin/VBox/BtnBox/RestartBtn
 
 @onready var pause_panel: Control = $PauseOverlay
@@ -32,7 +32,6 @@ var _score_tween: Tween
 func _ready() -> void:
 	game_over_panel.visible = false
 	pause_panel.visible = false
-	new_record_badge.visible = false
 	streak_label.visible = false
 	screen_flash.color = Color(0, 0, 0, 0)
 
@@ -78,18 +77,18 @@ func update_score(new_score: int) -> void:
 
 func _animate_score_count(val: int) -> void:
 	_displayed_score = val
-	score_label.text = "SCORE: %d" % _displayed_score
+	score_label.text = "TOČKE: %d" % _displayed_score
 
 func update_high_score(best: int) -> void:
-	highscore_label.text = "BEST: %d" % best
+	highscore_label.text = "REKORD: %d" % best
 
 func update_questions_left(remaining: int) -> void:
-	questions_left_label.text = "QUESTIONS LEFT: %d" % remaining
+	questions_left_label.text = "VPRAŠANJA: %d" % remaining
 
 func update_streak(streak: int) -> void:
 	if streak >= 2:
 		streak_label.visible = true
-		streak_label.text = "STREAK x%d!" % streak
+		streak_label.text = "ZAPOREDJE x%d!" % streak
 		var tw = create_tween()
 		streak_label.scale = Vector2(1.3, 1.3)
 		tw.tween_property(streak_label, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
@@ -120,9 +119,9 @@ func show_floating_text(text: String, world_pos: Vector2, color: Color) -> void:
 	tw.chain().tween_callback(float_label.queue_free)
 
 func show_game_over(final_score: int, high_score: int, solved: int, is_new_record: bool) -> void:
-	final_score_label.text = "%d" % final_score
-	final_stats_label.text = "Questions Solved: %d   •   High Score: %d" % [solved, high_score]
-	new_record_badge.visible = is_new_record
+	title_label.text = "Nov osebni rekord" if is_new_record else "Konec igre"
+	final_score_label.text = "Točke: %d" % final_score
+	final_stats_label.text = "Rešenih vprašanj: %d  •  Osebni rekord: %d" % [solved, high_score]
 
 	game_over_panel.visible = true
 	game_over_panel.modulate.a = 0.0

@@ -53,7 +53,7 @@ theme_override_colors/font_color = Color(0.96, 0.98, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 18
-text = "Answer"
+text = "Odgovor"
 horizontal_alignment = 1
 vertical_alignment = 1
 

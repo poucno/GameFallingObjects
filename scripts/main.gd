@@ -265,7 +265,7 @@ func _on_word_missed_signal(is_correct: bool, _text: String) -> void:
 		if hud:
 			hud.update_streak(streak)
 			hud.flash_screen(Color(1.0, 0.45, 0.1, 0.3), 0.3)
-			hud.show_floating_text("MISSED!", Vector2(576, 520), Color(1.0, 0.6, 0.2))
+			hud.show_floating_text("ZGREŠENO!", Vector2(576, 520), Color(1.0, 0.6, 0.2))
 
 		_play_sound("play_miss")
 		_add_camera_shake(7.0)
